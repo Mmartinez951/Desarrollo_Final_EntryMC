@@ -116,31 +116,25 @@ $RegistroSalida = mysqli_fetch_array ($ejecuta);
 
 
 <body>
-    <!-- Main container -->
-  <main class="full-box main-container">
+	
+	<!-- Main container -->
+	<main class="full-box main-container">
 		<!-- Nav lateral -->
 		<section class="full-box nav-lateral">
 			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
 			<div class="full-box nav-lateral-content">
 				<figure class="full-box nav-lateral-avatar">
 					<i class="far fa-times-circle show-nav-lateral"></i>
-					<form action="upload.php" method="post" enctype="multipart/form-data">
-						<input type="file" name="photo" accept="image/*" />
-						<input type="submit" value="Subir Foto" />
-					</form>
-					<?php
-					
-					$profileImage = isset($_SESSION[$_SESSION["Usuario_Nombre"]]['profileImage']) ? $_SESSION[$_SESSION["Usuario_Nombre"]]['profileImage'] : 'profile.jpg';
-					?>
-					<img src="<?php echo $profileImage; ?>" alt="Foto de Perfil" />
+					<img src="./assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
 					<figcaption class="roboto-medium text-center"> 
                      <small class="roboto-condensed-light">Bienvenido,  
 						<?php echo $nombre_usuario;?> 
 						<?php echo $apellido_usuario; ?>
 						 <p>Rol: <?php echo $nombre_rol; ?></p>
 						 <br></small>
-					</figcaption>
+					</figcaption>  
 				</figure>
+				
 				<div class="full-box nav-lateral-bar"></div>
 				<nav class="full-box nav-lateral-menu">
 					<ul>
@@ -155,10 +149,10 @@ $RegistroSalida = mysqli_fetch_array ($ejecuta);
 									<a href="client-list.php"><i class="fas fa-user fa-fw"></i> &nbsp; Usuarios</a>
 								</li>
 								<li>
-									<a href="Vehiculo-new.php"><i class="fas fa-bus-alt"></i> &nbsp; Vehículos</a>
+									<a href="Vehiculo-list.php"><i class="fas fa-bus-alt"></i> &nbsp; Vehículos</a>
 								</li>
 								<li>
-									<a href="client-search.html"><i class="fas fa-briefcase"></i> &nbsp; Roles</a>
+									<a href="roles.php"><i class="fas fa-briefcase"></i> &nbsp; Roles</a>
 								</li>
 								<li>
 									<a href="client-search.html"><i class="fas fa-key"></i> &nbsp; Permisos</a>
@@ -173,7 +167,7 @@ $RegistroSalida = mysqli_fetch_array ($ejecuta);
 									<a href="Registro-Entrada-List.php"><i class="fas fa-bus"></i> &nbsp; Entrada Vehiculos</a>
 								</li>
 								<li>
-									<a href="Registro-Salida-List.php"><i class="fas fa-bus"></i> &nbsp; Salida Vehiculos</a>
+									<a href="Registro-Salida-list.php"><i class="fas fa-bus"></i> &nbsp; Salida Vehiculos</a>
 								</li>
 							</ul>
 						</li>
@@ -191,7 +185,7 @@ $RegistroSalida = mysqli_fetch_array ($ejecuta);
 				</nav>
 			</div>
 		</section>
-
+		
 		<!-- Page content -->
 		<section class="full-box page-content">
 			<nav class="full-box navbar-info">

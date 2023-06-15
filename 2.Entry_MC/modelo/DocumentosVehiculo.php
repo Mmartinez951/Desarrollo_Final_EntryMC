@@ -49,8 +49,9 @@ class vehiculos{
                                                                            Color='$this->Vehiculo_Color',
                                                                            Tipo_Vehiculo='$this->Vehiculo_Tipo',
                                                                            Velocidad_MAX='$this->Vehiculo_Velocidad',
-                                                                           Estado_Vehiculo='$this->Vehiculo_Estado'";
-                                          //echo $update;
+                                                                           Estado_Vehiculo='$this->Vehiculo_Estado'
+                                                                           WHERE Id_Vehiculo='$this->Id_Vehiculo'";
+                                          echo $update;
                                           mysqli_query($c,$update);
                                           echo "<script>
                                                     alert('Los datos fueron actualizados correctamente');

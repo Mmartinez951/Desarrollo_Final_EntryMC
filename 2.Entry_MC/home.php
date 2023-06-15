@@ -80,28 +80,16 @@ $conexion->close();
 
 </head>
 <body>
-
-
-    <!-- Aquí puedes agregar el resto de tu contenido HTML para el dashboard -->
+	
 	<!-- Main container -->
 	<main class="full-box main-container">
 		<!-- Nav lateral -->
-		<section class="full-box nav-lateral" >
-					<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
 			<div class="full-box nav-lateral-content">
-				
 				<figure class="full-box nav-lateral-avatar">
 					<i class="far fa-times-circle show-nav-lateral"></i>
-					<form action="upload.php" method="post" enctype="multipart/form-data">
-						<input type="file" name="photo" accept="image/*" />
-						<input type="submit" value="Subir Foto" />
-					</form>
-					<?php
-					
-					$profileImage = isset($_SESSION[$_SESSION["Usuario_Nombre"]]['profileImage']) ? $_SESSION[$_SESSION["Usuario_Nombre"]]['profileImage'] : 'profile.jpg';
-					?>
-					<img src="<?php echo $profileImage; ?>" alt="Foto de Perfil" />
-
+					<img src="./assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
 					<figcaption class="roboto-medium text-center"> 
                      <small class="roboto-condensed-light">Bienvenido,  
 						<?php echo $nombre_usuario;?> 
