@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-09-2022 a las 04:50:07
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 8.1.6
+-- Tiempo de generación: 31-05-2023 a las 16:11:13
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `estados_usuarios` (
   `Id_Estado_Usuario` int(11) NOT NULL,
   `Nombre_Estado` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `estados_usuarios`
@@ -49,7 +49,7 @@ INSERT INTO `estados_usuarios` (`Id_Estado_Usuario`, `Nombre_Estado`) VALUES
 CREATE TABLE `estados_vehiculo` (
   `Id_Estado_Vehiculo` int(11) NOT NULL,
   `Nombre_Estado` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `estados_vehiculo`
@@ -71,7 +71,7 @@ INSERT INTO `estados_vehiculo` (`Id_Estado_Vehiculo`, `Nombre_Estado`) VALUES
 CREATE TABLE `estado_roles` (
   `Id_Estado_Rol` int(11) NOT NULL,
   `Nombre_Estado` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `estado_roles`
@@ -103,7 +103,7 @@ CREATE TABLE `orden_trabajo` (
   `Estado_Vehiculo` int(11) NOT NULL,
   `Observaciones` varchar(250) NOT NULL,
   `Fecha_Orden_Trabajo` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -115,7 +115,7 @@ CREATE TABLE `permisos` (
   `Id_Permiso` int(11) NOT NULL,
   `Nombre_Permiso` varchar(50) NOT NULL,
   `Rol_Permiso` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `permisos`
@@ -142,7 +142,7 @@ CREATE TABLE `registro_entrada` (
   `Estado_Vehiculo` int(11) NOT NULL,
   `Observaciones` varchar(350) NOT NULL,
   `Fecha_Registro_Entrada` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `registro_entrada`
@@ -196,7 +196,7 @@ CREATE TABLE `registro_salida` (
   `Estado_Vehiculo` int(11) NOT NULL,
   `Observaciones` varchar(350) NOT NULL,
   `Fecha_Registro_Salida` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `registro_salida`
@@ -245,7 +245,7 @@ CREATE TABLE `roles` (
   `Nombre_Rol` varchar(20) NOT NULL,
   `Descripcion_Rol` varchar(250) DEFAULT NULL,
   `Estado_Rol` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -267,7 +267,7 @@ INSERT INTO `roles` (`Id_Rol`, `Nombre_Rol`, `Descripcion_Rol`, `Estado_Rol`) VA
 CREATE TABLE `tipos_vehiculo` (
   `Id_Tipo_Vehiculo` int(11) NOT NULL,
   `Nombre_Tipo_Vehiculo` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tipos_vehiculo`
@@ -287,7 +287,7 @@ INSERT INTO `tipos_vehiculo` (`Id_Tipo_Vehiculo`, `Nombre_Tipo_Vehiculo`) VALUES
 CREATE TABLE `tipo_documentos` (
   `Id_Tipo_Documento` int(11) NOT NULL,
   `Nombre_Documento` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tipo_documentos`
@@ -312,13 +312,30 @@ CREATE TABLE `usuarios` (
   `Tipo_Documento` int(11) NOT NULL,
   `Numero_Documento` int(11) UNSIGNED NOT NULL,
   `Direccion` varchar(65) DEFAULT NULL,
-  `Correo_Electronico` varchar(25) NOT NULL,
-  `Celular` int(11) DEFAULT NULL,
-  `Nombre_Rol` int(11) NOT NULL,
+  `Correo_Electronico` varchar(30) NOT NULL,
+  `Celular` varchar(15) DEFAULT NULL,
+  `Id_Rol` int(11) NOT NULL,
   `Estado_Usuario` int(11) NOT NULL,
-  `Login` varchar(50) NOT NULL,
+  `Login` varchar(15) NOT NULL,
   `Password` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`Id_Usuario`, `Nombre_Usuario`, `Apellido_Usuario`, `Tipo_Documento`, `Numero_Documento`, `Direccion`, `Correo_Electronico`, `Celular`, `Id_Rol`, `Estado_Usuario`, `Login`, `Password`) VALUES
+(1, 'Cristian', 'Ortega', 1, 1019117310, 'kr 151 bis a # 138-19', 'cristian1002andres96@gmail.com', '3132872707', 1, 1, 'cortega', '****'),
+(2, 'jose', 'rodriguez', 1, 1098779654, 'kr 123 sur', 'jr@gmail.com', '3125696958', 1, 1, 'jrodriguez', '****'),
+(3, 'Luis ', 'Ortega', 1, 1019118756, 'kr 134', 'lo@gmail.com', '3212566958', 1, 1, 'lortega', '****'),
+(5, 'camilo', 'gomez', 1, 1019117632, 'calle 26', 'cg@gmail.com', '2147483647', 1, 1, 'cgomez', '****'),
+(6, 'Diana', 'Ramirez', 1, 1019887532, 'calle 123', 'dr@gmail.com', '2147483647', 1, 1, 'dramirez', '****'),
+(7, 'Yesika', 'Ramirez', 1, 1019118186, 'Kr 155 bis a', 'yr@gmail.com', '2147483647', 1, 1, 'Yramirez', '****'),
+(8, 'Marlon', 'Martinez', 1, 1019116320, 'Carrera 23 sur', 'mmartinez@gmail.com', '2147483647', 1, 1, 'mmartinez', '****'),
+(10, 'William', 'Alvarez', 1, 1123366596, 'calle 50 sur', 'walvarez@gmail.com', '2147483647', 1, 1, 'walvarez', '****'),
+(12, 'Luis', 'Cordero', 1, 2365559985, 'calle 9 ', 'lcordero@gmail.com', '3116965578', 1, 1, 'lcordero', '****'),
+(15, 'Camilo', 'Vasquez', 1, 1025336541, 'calle 52', 'cv@gmail.com', '3125685896', 1, 1, 'cvasquez', '****'),
+(16, 'camilo', 'cienfuegos', 1, 1018885365, 'cr 24', 'cc@gmail.com', '3215469875', 1, 1, 'ccienfuegos', '****');
 
 -- --------------------------------------------------------
 
@@ -336,7 +353,7 @@ CREATE TABLE `vehiculos` (
   `Tipo_Vehiculo` int(11) NOT NULL,
   `Velocidad_MAX` varchar(20) DEFAULT NULL,
   `Estado_Vehiculo` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `vehiculos`
@@ -451,9 +468,10 @@ ALTER TABLE `tipo_documentos`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`Id_Usuario`),
+  ADD UNIQUE KEY `Login` (`Login`),
   ADD KEY `Tipo_Documento` (`Tipo_Documento`),
-  ADD KEY `Nombre_Rol` (`Nombre_Rol`),
-  ADD KEY `Estado_Usuario` (`Estado_Usuario`);
+  ADD KEY `Estado_Usuario` (`Estado_Usuario`),
+  ADD KEY `Id_Rol` (`Id_Rol`) USING BTREE;
 
 --
 -- Indices de la tabla `vehiculos`
@@ -531,7 +549,7 @@ ALTER TABLE `tipo_documentos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `Id_Usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `Id_Usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `vehiculos`
@@ -581,7 +599,7 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`Tipo_Documento`) REFERENCES `tipo_documentos` (`Id_Tipo_Documento`),
-  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`Nombre_Rol`) REFERENCES `roles` (`Id_Rol`),
+  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`Id_Rol`) REFERENCES `roles` (`Id_Rol`),
   ADD CONSTRAINT `usuarios_ibfk_3` FOREIGN KEY (`Estado_Usuario`) REFERENCES `estados_usuarios` (`Id_Estado_Usuario`);
 
 --
