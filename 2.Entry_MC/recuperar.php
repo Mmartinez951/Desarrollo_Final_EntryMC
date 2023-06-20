@@ -2,7 +2,7 @@
 include("Conexion/Conexion.php");
 session_start();
 
-if(isset($_POST['recuperar'])) {
+if (isset($_POST['recuperar'])) {
     $correo = $_POST['correo'];
 
     // Verificar si el correo existe en la base de datos
@@ -46,7 +46,8 @@ if(isset($_POST['recuperar'])) {
 }
 
 // Función para generar una contraseña aleatoria
-function generarContraseñaAleatoria() {
+function generarContraseñaAleatoria()
+{
     $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     $longitud = 8;
     $contraseña = '';
@@ -60,12 +61,13 @@ function generarContraseñaAleatoria() {
 }
 
 // enviar el correo electrónico con la nueva contraseña en pantalla
-function enviarCorreo($correo, $contraseña) {
-  echo '<script>
+function enviarCorreo($correo, $contraseña)
+{
+    echo '<script>
       alert("Tu nueva contraseña es: ' . $contraseña . '");
       window.location.href = "index.php";
   </script>';
-  exit();
+    exit();
 }
 
 /* // Función para enviar el correo electrónico con la nueva contraseña
@@ -95,11 +97,14 @@ function enviarCorreo($correo, $contraseña) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Recuperar Contraseña</title>
 </head>
+
 <body>
     <h1>Recuperar Contraseña</h1>
     <form action="recuperar.php" method="post">
@@ -108,4 +113,5 @@ function enviarCorreo($correo, $contraseña) {
         <button type="submit" name="recuperar">Recuperar</button>
     </form>
 </body>
+
 </html>

@@ -44,36 +44,23 @@ $conexion->close();
 <?php
 include("./Conexion/Conexion.php");
 include("./Controlador/RegistroEntradaControlador.php");
-if ($_POST) {
-	$obj->Placa = $_POST['Placa'];
-}
+$obj = new Registro_Entrada();
 $cone = new Conexion();
 $c = $cone->conectando();
-$queryCantUsuarios = "SELECT COUNT(*) AS TotalRegistros FROM Registro_Entrada";
-$ejecuta = mysqli_query($c, $queryCantUsuarios);
-$TotalRegistros = mysqli_fetch_array($ejecuta)['TotalRegistros'];
 
-$maximoRegistros = 10;
-if (empty($_GET['pagina'])) {
-	$pagina = 1;
-} else {
-	$pagina = $_GET['pagina'];
+
+if ($_POST) {
+
+	$obj->Id_Registro_Entrada = $_POST['Id_Registro_Entrada'];
+	$obj->Id_Vehiculo = $_POST['Id_Vehiculo'];
+	$obj->Codigo = $_POST['Codigo'];
+	$obj->Placa = $_POST['Placa'];
+	$obj->Marca = $_POST['Marca'];
+	$obj->Modelo = $_POST['Modelo'];
+	$obj->Nombre_Estado_Registro = $_POST['Nombre_Estado_Registro'];
+	$obj->Observaciones = $_POST['Observaciones'];
+	$obj->Fecha_Registro_Entrada = $_POST['Fecha_Registro_Entrada'];
 }
-$desde = ($pagina - 1) * $maximoRegistros;
-$totalRegistros = ceil($TotalRegistros / $maximoRegistros);
-
-$query = "SELECT Id_Registro_Entrada, V.Id_Vehiculo,V.Codigo,V.Placa,V.Marca,V.Modelo, 
-ER.Nombre_Estado_Registro, Observaciones, Fecha_Registro_Entrada FROM registro_entrada RE 
-INNER JOIN vehiculos V ON RE.Id_Vehiculo = V.Id_Vehiculo 
-INNER JOIN estados_registros ER ON RE.Estado_Vehiculo = ER.Id_Estado_Registro WHERE RE.Estado_Vehiculo = 2
-ORDER BY Id_Registro_Entrada limit $desde,$maximoRegistros";
-
-//1. MANTENIMIENTO
-//2. CIRCULACIÓN
-//3. PATIOS
-
-$ejecuta = mysqli_query($c, $query);
-$RegistroEntrada = mysqli_fetch_array($ejecuta);
 ?>
 
 
@@ -84,7 +71,7 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
 	<meta charset="UTF-8">
 	<meta name="viewport"
 		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>Registro de Entrada</title>
+	<title>Agregar Registro</title>
 
 	<!-- Normalize V8.0.1 -->
 	<link rel="stylesheet" href="./css/normalize.css">
@@ -112,7 +99,6 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
 
 
 </head>
-
 
 <body>
 
@@ -200,7 +186,7 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
 				<a href="#" class="float-left show-nav-lateral">
 					<i class="fas fa-exchange-alt"></i>
 				</a>
-				<a href="Registro-Salida-New.php">
+				<a href="user-update.html">
 					<i class="fas fa-user-cog"></i>
 				</a>
 				<a href="#" class="btn-exit-system">
@@ -211,142 +197,129 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
 			<!-- Page header -->
 			<div class="full-box page-header">
 				<h3 class="text-left">
-					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; REGISTRO DE ENTRADA
+					<i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR REGISTRO
 				</h3>
 				<p class="text-justify">
-					GESTIÓN DE ENTRADA DE VEHÍCULOS
+					Agregar registro de entrada.
 				</p>
 			</div>
 
 			<div class="container-fluid">
 				<ul class="full-box list-unstyled page-nav-tabs">
 					<li>
-						<a href="Registro-Entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR REGISTRO DE
-							ENTRADA</a>
+						<a class="active" href="Registro-Entrada-New.php"><i class="fas fa-plus fa-fw"></i> &nbsp;
+							AGREGAR REGISTRO DE ENTRADA</a>
 					</li>
 					<li>
-						<a class="active" href="Vehiculo-List.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
-							LISTA DE REGISTRO DE ENTRADAS</a>
+						<a href="Registro-Entrada-List.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE
+							REGISTROS DE ENTRADA</a>
 					</li>
 				</ul>
 			</div>
-
+			<div class="container-fluid">
+			</div>
 			<!-- Content here-->
 			<div class="container-fluid">
-			<h4>BUSCAR VEHICULO</h4>
-				<form method="GET" action="BusquedaVehiculoEntrada.php">
-					<input type="text" name="buscar" placeholder="Buscar PLACA">
-					<input type="submit" value="Buscar">
+					<h4>CONSULTA EXPRESA</h4>
+					<form action="BuscarVehiculoEntrada.php" method="GET">
+						<input type="text" name="buscar" placeholder="Ingrese PLACA">
+						<button type="submit">Buscar</button>
+					</form>
+				<form action="" class="form-neon" autocomplete="off" method="POST">
+					<fieldset>
+						<legend><i class="fas fa-book"></i> &nbsp; Información básica</legend>
+						<div class="container-fluid">
+						</div>
+						<div class="row">
+							<div class="col-10 col-md-7">
+								<div class="form-group">
+									<label for="Id_Registro_Entrada" class="bmd-label-floating"></label>
+									<input class="form-control form-control-sm" type="text" name="Id_Registro_Entrada"
+										id="Id_Registro_Entrada" placeholder="El Codigo es Asignado por el Sistema"
+										autofocus required aria-label=".form-control-sm example" readOnly
+										maxlength="27">
+								</div>
+							</div>
+							<div class="col-12 col-md-7">
+								<div class="form-group">
+									<label for="Id_Vehiculo" class="bmd-label-floating">Vehículo</label>
+									<input type="text" required class="form-control" name="Id_Vehiculo" id="Id_Vehiculo"
+										maxlength="40">
+
+								</div>
+							</div>
+							<div class="col-10 col-md-7">
+								<div class="form-group">
+									<label for="Codigo" class="bmd-label-floating">Codigo</label>
+									<input type="text" required class="form-control" name="Codigo" id="Codigo"
+										maxlength="40">
+								</div>
+							</div>
+							<div class="col-12 col-md-7">
+								<div class="form-group">
+									<label for="Placa" class="bmd-label-floating">Placa</label>
+									<input type="text" required class="form-control" name="Placa" id="Placa"
+										maxlength="40">
+								</div>
+							</div>
+							<div class="col-12 col-md-7">
+								<div class="form-group">
+									<label for="Marca" class="bmd-label-floating">Marca</label>
+									<input type="text" required class="form-control" name="Marca" id="Marca"
+										maxlength="40">
+								</div>
+							</div>
+							<div class="col-12 col-md-7">
+								<div class="form-group">
+									<label for="Modelo" class="bmd-label-floating">Modelo</label>
+									<input type="text" required class="form-control" name="Modelo" id="Modelo"
+										maxlength="40">
+								</div>
+							</div>
+							<div class="col-12 col-md-7">
+								<div class="form-group">
+									<label for="Nombre_Estado" class="bmd-label-floating">Estado</label>
+									<select class="form-control" name="Nombre_Estado" id="Nombre_Estado">
+										<?php
+										$query = "SELECT * FROM Estados_registros";
+										$NombreDocumentos = mysqli_query($c, $query);
+
+										while ($NombreDocumento = mysqli_fetch_array($NombreDocumentos)) {
+											?>
+											<option value="<?php echo $NombreDocumento[0] ?>">
+												<?php echo $NombreDocumento[1] ?>
+											</option>
+											<?php
+										}
+										?>
+									</select>
+								</div>
+							</div>
+							<div class="col-12 col-md-7">
+								<div class="form-group">
+									<label for="text" class="bmd-label-floating">Observaciones</label>
+									<input type="text" class="form-control" name="Observaciones" id="Observaciones">
+								</div>
+							</div>
+							<div class="col-12 col-md-7">
+								<div class="form-group">
+									<label for="Fecha_Registro_Entrada" class="bmd-label-floating">Fecha Entrada</label>
+									<input type="date" id="Fecha_Registro_Entrada" name="Fecha_Registro_Entrada"
+										value="<?php echo date('Y-m-d'); ?>" min="2022-01-01" max="2050-12-31">
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<br><br><br>
+					<p class="text-center" style="margin-top: 40px;">
+						<button type="reset" class="btn btn-raised btn-secondary btn-sm"><i
+								class="fas fa-paint-roller"></i> &nbsp; LIMPIAR</button>
+						&nbsp; &nbsp;
+						<button type="submit" class="btn btn-raised btn-info btn-sm" name="Guardar"><i
+								class="far fa-save"></i> &nbsp; GUARDAR </button>
+					</p>
 				</form>
-				<div class="table-responsive">
-					<table class="table table-dark table-sm">
-						<thead>
-							<tr class="text-center roboto-medium">
-								<th>#</th>
-								<th>Vehículo</th>
-								<th>Codigo</th>
-								<th>Placa</th>
-								<th>Marca </th>
-								<th>Modelo</th>
-								<th>Estado Vehículo</th>
-								<th>Observaciones </th>
-								<th>Fecha Entrada</th>
-								<th>ACTUALIZAR</th>
-							</tr>
-						</thead>
-						<?php
-						if ($RegistroEntrada == 0) {
-							echo "No hay Registros";
-						} else {
-							do {
-								?>
-
-
-								<tbody>
-									<tr class="text-center">
-										<td>
-											<?php echo $RegistroEntrada[0] ?>
-										</td>
-										<td>
-											<?php echo $RegistroEntrada[1] ?>
-										</td>
-										<td>
-											<?php echo $RegistroEntrada[2] ?>
-										</td>
-										<td>
-											<?php echo $RegistroEntrada[3] ?>
-										</td>
-										<td>
-											<?php echo $RegistroEntrada[4] ?>
-										</td>
-										<td>
-											<?php echo $RegistroEntrada[5] ?>
-										</td>
-										<td>
-											<?php echo $RegistroEntrada[6] ?>
-										</td>
-										<td>
-											<?php echo $RegistroEntrada[7] ?>
-										</td>
-										<td>
-											<?php echo $RegistroEntrada[8] ?>
-										</td>
-										<td>
-											<a href=" <?php if ($RegistroEntrada[0] <> '') {
-												echo "Registro-Entrada-Update.php?key=" . urlencode($RegistroEntrada[0]);
-											} ?>" class="btn btn-success">
-												<i class="fas fa-edit"></i>
-											</a>
-										</td>
-									</tr>
-									<?php
-							} while ($RegistroEntrada = mysqli_fetch_array($ejecuta));
-						}
-						?>
-
-
-						</tbody>
-					</table>
-				</div>
-				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-						<?php
-						if ($pagina != 1) {
-							?>
-							<li class="page-item ">
-								<a class="page-link" href="?pagina=<?php echo 1; ?>">
-									<< /a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="?pagina=<?php echo $pagina - 1; ?>">
-									<<< /a>
-							</li>
-							<?php
-						}
-						for ($i = 1; $i <= $totalRegistros; $i++) {
-							if ($i == $pagina) {
-								echo '<li class="page-item active" aria-current="page"><a class="page-link" href="?pagina=' . $i . '">' . $i . '</a></li>';
-							} else {
-								echo '<li class="page-item "><a class="page-link" href="?pagina=' . $i . '">' . $i . '</a></li>';
-							}
-						}
-						if ($pagina != $totalRegistros) {
-							?>
-
-							<li class="page-item">
-								<a class="page-link" href="?pagina=<?php echo $pagina + 1; ?>">>></a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="?pagina=<?php echo $totalRegistros; ?>">></a>
-							</li>
-							<?php
-						}
-						?>
-						</li>
-					</ul>
-				</nav>
 			</div>
-
 
 		</section>
 	</main>

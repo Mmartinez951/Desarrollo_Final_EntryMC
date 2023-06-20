@@ -1,6 +1,6 @@
 <?php
 include("./modelo/DocumentoModeloSalida.php");
-$obj = new RegistroSalida();
+$obj = new Registro_Salida();
 if ($_POST){
 
     $obj->Id_Registro_Salida = $_POST['Id_Registro_Salida'];

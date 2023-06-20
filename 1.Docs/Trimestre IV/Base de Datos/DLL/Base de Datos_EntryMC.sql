@@ -111,6 +111,7 @@ Asignar int not null,
 Luces varchar(25) null,
 Retrovisores varchar(25) null,
 Rayones varchar(25) null,
+Tipo_Mantemiento int not null,
 Estado_Vehiculo int not null,
 Observaciones varchar(250) not null,
 Fecha_Orden_Trabajo date,
@@ -119,9 +120,26 @@ primary key (Id_Orden_Trabajo)
 alter table Orden_Trabajo add foreign key(Estado_Vehiculo) references Vehiculos (Estado_Vehiculo);
 alter table Orden_Trabajo add foreign key(Id_Vehiculo) references Vehiculos (Id_Vehiculo);
 alter table Orden_Trabajo add foreign key(Asignar) references Usuarios (Id_usuario);
+alter table Orden_Trabajo add foreign key(Tipo_Mantemiento) references Tipos_Mantenimiento (Id_Tipo_Mantenimiento);
+
+CREATE TABLE Tipos_Mantenimiento(
+Id_Tipo_Mantenimiento int auto_increment not null,
+Nombre_Mantenimiento varchar(20) not null,
+primary key (Id_Tipo_Mantenimiento)
+);
 
 
-CREATE TABLE Registro_Salida (
+CREATE TABLE Estado_OrdenesTrabajo(
+Id_Estado_Orden int auto_increment not null,
+Nombre_EstadoOrden varchar(20) not null,
+primary key (Id_Estado_Orden)
+);
+alter table Orden_Trabajo add foreign key(Estado_Orden_Trabajo) references Estado_OrdenesTrabajo (Id_Estado_Orden);
+
+/*alter table Orden_Trabajo add foreign key(Estado_Vehiculo) references Vehiculos (Estado_Vehiculo);*/
+
+
+/*CREATE TABLE Registro_Salida (
 Id_Registro_Salida int auto_increment not null,
 Id_Vehiculo int not null,
 Codigo varchar(10) not null,
@@ -132,9 +150,15 @@ Estado_Vehiculo int not null,
 Observaciones varchar (350) not null,
 Fecha_Registro_Salida date,
 primary key (Id_Registro_Salida)
-);
+);*/
 
+CREATE TABLE Estados_registros(
+Id_Estado_Registro int auto_increment not null,
+Nombre_Estado_Registro varchar(20) not null,
+primary key (Id_Estado_Registro)
+);
+alter table registro_entrada add foreign key(Estado_Vehiculo)  references Estados_registros (Id_Estado_Registro);
+alter table registro_salida add foreign key(Estado_Vehiculo)  references Estados_registros (Id_Estado_Registro);
 alter table Registro_Salida add foreign key(Id_Vehiculo)  references Vehiculos (Id_Vehiculo);
-alter table Registro_Salida add foreign key(Estado_Vehiculo) references Vehiculos (Estado_Vehiculo);
 
 

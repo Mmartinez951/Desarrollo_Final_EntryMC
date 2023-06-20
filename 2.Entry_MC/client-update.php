@@ -1,5 +1,3 @@
-
-
 <?php
 include("./Conexion/Conexion.php");
 include("./Controlador/categoriaControlador.php");
@@ -7,26 +5,26 @@ $obj = new Categorias();
 $cone = new Conexion();
 $c = $cone->conectando();
 
-if($_POST){
+if ($_POST) {
 
-    $obj->Id_Usuario = $_POST['Id_Usuario'];
-    $obj->Usuario_Nombre = $_POST['Usuario_Nombre'];
-    $obj->Usuario_Apellido = $_POST['Usuario_Apellido'];
-    $obj->Tipo_Documento = $_POST['Tipo_Documento'];
-    $obj->Usuario_NumeroDocumento = $_POST['Usuario_NumeroDocumento'];
-    $obj->Usuario_Direccion = $_POST['Usuario_Direccion'];
-    $obj->Usuario_Correo = $_POST['Usuario_Correo'];
-    $obj->Usuario_Celular = $_POST['Usuario_Celular'];
-    $obj->Usuario_Rol = $_POST['Usuario_Rol'];
-    $obj->Estado_Usuario = $_POST['Estado_Usuario'];
-    $obj->Usuario_Login = $_POST['Usuario_Login'];
-    $obj->Usuario_Password = $_POST['Usuario_Password'];
+	$obj->Id_Usuario = $_POST['Id_Usuario'];
+	$obj->Usuario_Nombre = $_POST['Usuario_Nombre'];
+	$obj->Usuario_Apellido = $_POST['Usuario_Apellido'];
+	$obj->Tipo_Documento = $_POST['Tipo_Documento'];
+	$obj->Usuario_NumeroDocumento = $_POST['Usuario_NumeroDocumento'];
+	$obj->Usuario_Direccion = $_POST['Usuario_Direccion'];
+	$obj->Usuario_Correo = $_POST['Usuario_Correo'];
+	$obj->Usuario_Celular = $_POST['Usuario_Celular'];
+	$obj->Usuario_Rol = $_POST['Usuario_Rol'];
+	$obj->Estado_Usuario = $_POST['Estado_Usuario'];
+	$obj->Usuario_Login = $_POST['Usuario_Login'];
+	$obj->Usuario_Password = $_POST['Usuario_Password'];
 }
 $key = $_GET['key'];
 //echo $key; 
 $conect = new Conexion();
 $c = $conect->conectando();
-$query="select * from usuarios where Id_Usuario = '$key'";
+$query = "select * from usuarios where Id_Usuario = '$key'";
 $resultado = mysqli_query($c, $query);
 $arreglo = mysqli_fetch_array($resultado);
 
@@ -43,14 +41,13 @@ $obj->Estado_Usuario = $arreglo[9];
 $obj->Usuario_Login = $arreglo[10];
 $obj->Usuario_Password = $arreglo[11];
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<title>Actualizar Usuario</title>
 
 	<!-- Normalize V8.0.1 -->
@@ -62,66 +59,68 @@ $obj->Usuario_Password = $arreglo[11];
 	<!-- Bootstrap Material Design V4.0 -->
 	<link rel="stylesheet" href="./css/bootstrap-material-design.min.css">
 
-	<!-- Font Awesome V5.9.0 --><?php
-// Nombre, apellido y rol en pantalla
-session_start(); // Iniciar sesión o reanudar una sesión existente
+	<!-- Font Awesome V5.9.0 -->
+	<?php
+	// Nombre, apellido y rol en pantalla
+	session_start(); // Iniciar sesión o reanudar una sesión existente
+	
+	// Verificar si el usuario ha iniciado sesión
+	if (!isset($_SESSION['Usuario_Id'])) {
+		// El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
+		header("Location: index.php");
+		exit();
+	}
 
-// Verificar si el usuario ha iniciado sesión
-if (!isset($_SESSION['Usuario_Id'])) {
-    // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
-    header("Location: index.php");
-    exit();
-}
+	// Conexión a la base de datos
+	$conexion = new mysqli($servidor = "localhost", $usuario = "root", $password = "", $db = "entry_mc");
 
-// Conexión a la base de datos
-$conexion = new mysqli($servidor = "localhost", $usuario = "root", $password = "", $db = "entry_mc");
+	// Verificar si la conexión fue exitosa
+	if ($conexion->connect_errno) {
+		echo 'Error al conectar a la base de datos: ' . $conexion->connect_error;
+		exit();
+	}
 
-// Verificar si la conexión fue exitosa
-if ($conexion->connect_errno) {
-    echo 'Error al conectar a la base de datos: ' . $conexion->connect_error;
-    exit();
-}
+	// Obtener el ID del usuario autenticado desde la sesión
+	$usuario_id = $_SESSION['Usuario_Id'];
 
-// Obtener el ID del usuario autenticado desde la sesión
-$usuario_id = $_SESSION['Usuario_Id'];
+	// Consulta para obtener el nombre de usuario, apellido de usuario y el nombre de rol del usuario autenticado
+	$sql = "SELECT u.Nombre_Usuario, u.Apellido_Usuario, r.Nombre_Rol FROM Usuarios u JOIN Roles r ON u.Id_Rol = r.Id_Rol WHERE u.Id_Usuario = $usuario_id";
+	$resultado = $conexion->query($sql);
 
-// Consulta para obtener el nombre de usuario, apellido de usuario y el nombre de rol del usuario autenticado
-$sql = "SELECT u.Nombre_Usuario, u.Apellido_Usuario, r.Nombre_Rol FROM Usuarios u JOIN Roles r ON u.Id_Rol = r.Id_Rol WHERE u.Id_Usuario = $usuario_id";
-$resultado = $conexion->query($sql);
+	// Verificar si se encontraron resultados
+	if ($resultado->num_rows > 0) {
+		$fila = $resultado->fetch_assoc();
+		$nombre_usuario = $fila["Nombre_Usuario"];
+		$apellido_usuario = $fila["Apellido_Usuario"];
+		$nombre_rol = $fila["Nombre_Rol"];
+	} else {
+		$nombre_usuario = "";
+		$apellido_usuario = "";
+		$nombre_rol = "";
+	}
 
-// Verificar si se encontraron resultados
-if ($resultado->num_rows > 0) {
-    $fila = $resultado->fetch_assoc();
-    $nombre_usuario = $fila["Nombre_Usuario"];
-    $apellido_usuario = $fila["Apellido_Usuario"];
-    $nombre_rol = $fila["Nombre_Rol"];
-} else {
-    $nombre_usuario = "";
-    $apellido_usuario = "";
-    $nombre_rol = "";
-}
-
-// Cerrar la conexión a la base de datos
-$conexion->close();
-?>
+	// Cerrar la conexión a la base de datos
+	$conexion->close();
+	?>
 	<link rel="stylesheet" href="./css/all.css">
 
 	<!-- Sweet Alerts V8.13.0 CSS file -->
 	<link rel="stylesheet" href="./css/sweetalert2.min.css">
 
 	<!-- Sweet Alert V8.13.0 JS file-->
-	<script src="./js/sweetalert2.min.js" ></script>
+	<script src="./js/sweetalert2.min.js"></script>
 
 	<!-- jQuery Custom Content Scroller V3.1.5 -->
 	<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
-	
+
 	<!-- General Styles -->
 	<link rel="stylesheet" href="./css/style.css">
 
 
 </head>
+
 <body>
-	
+
 	<!-- Main container -->
 	<main class="full-box main-container">
 		<!-- Nav lateral -->
@@ -131,15 +130,18 @@ $conexion->close();
 				<figure class="full-box nav-lateral-avatar">
 					<i class="far fa-times-circle show-nav-lateral"></i>
 					<img src="./assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
-					<figcaption class="roboto-medium text-center"> 
-                     <small class="roboto-condensed-light">Bienvenido,  
-						<?php echo $nombre_usuario;?> 
-						<?php echo $apellido_usuario; ?>
-						 <p>Rol: <?php echo $nombre_rol; ?></p>
-						 <br></small>
-					</figcaption>  
+					<figcaption class="roboto-medium text-center">
+						<small class="roboto-condensed-light">Bienvenido,
+							<?php echo $nombre_usuario; ?>
+							<?php echo $apellido_usuario; ?>
+							<p>Rol:
+								<?php echo $nombre_rol; ?>
+							</p>
+							<br>
+						</small>
+					</figcaption>
 				</figure>
-				
+
 				<div class="full-box nav-lateral-bar"></div>
 				<nav class="full-box nav-lateral-menu">
 					<ul>
@@ -148,7 +150,8 @@ $conexion->close();
 						</li>
 
 						<li>
-							<a href="#" class="nav-btn-submenu"><i class="fas fa-sliders-h"></i> &nbsp; Administracion <i class="fas fa-chevron-down"></i></a>
+							<a href="#" class="nav-btn-submenu"><i class="fas fa-sliders-h"></i> &nbsp; Administracion
+								<i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
 									<a href="client-list.php"><i class="fas fa-user fa-fw"></i> &nbsp; Usuarios</a>
@@ -166,26 +169,31 @@ $conexion->close();
 						</li>
 
 						<li>
-							<a href="#" class="nav-btn-submenu"><i class="fas fa-keyboard"></i> &nbsp; Registros Patios <i class="fas fa-chevron-down"></i></a>
+							<a href="#" class="nav-btn-submenu"><i class="fas fa-keyboard"></i> &nbsp; Registros Patios
+								<i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="Registro-Entrada-List.php"><i class="fas fa-bus"></i> &nbsp; Entrada Vehiculos</a>
+									<a href="Registro-Entrada-List.php"><i class="fas fa-bus"></i> &nbsp; Entrada
+										Vehiculos</a>
 								</li>
 								<li>
-									<a href="Registro-Salida-list.php"><i class="fas fa-bus"></i> &nbsp; Salida Vehiculos</a>
+									<a href="Registro-Salida-list.php"><i class="fas fa-bus"></i> &nbsp; Salida
+										Vehiculos</a>
 								</li>
 							</ul>
 						</li>
 
 						<li>
-							<a href="#" class="nav-btn-submenu"><i class="fas fa-search"></i> &nbsp; Consultas <i class="fas fa-chevron-down"></i></a>
+							<a href="#" class="nav-btn-submenu"><i class="fas fa-search"></i> &nbsp; Consultas <i
+									class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
-									<a href="reservation-new.html"><i class="fas fa-ticket-alt"></i> &nbsp; Ordenes de Trabajo</a>
+									<a href="Ordenes-Trabajo-List.php"><i class="fas fa-ticket-alt"></i> &nbsp; Ordenes de
+										Trabajo</a>
 								</li>
 						</li>
-							</ul>
-						</li>
+					</ul>
+					</li>
 					</ul>
 				</nav>
 			</div>
@@ -208,10 +216,10 @@ $conexion->close();
 			<!-- Page header -->
 			<div class="full-box page-header">
 				<h3 class="text-left">
-					<i class="fas fa-sync-alt fa-fw"></i> &nbsp; ACTUALIZAR USUARIO
+					<i class="fas fa-sync-alt fa-spin"></i> &nbsp; ACTUALIZAR USUARIO
 				</h3>
 				<p class="text-justify">
-					
+
 				</p>
 			</div>
 
@@ -221,11 +229,12 @@ $conexion->close();
 						<a href="client-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR CLIENTE</a>
 					</li> -->
 					<li>
-						<a href="client-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE USUARIOS</a>
+						<a href="client-list.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE
+							USUARIOS</a>
 					</li>
-				</ul>	
+				</ul>
 			</div>
-			
+
 			<!-- Content here-->
 			<div class="container-fluid">
 				<form action="" class="form-neon" autocomplete="off" method="POST">
@@ -236,121 +245,146 @@ $conexion->close();
 								<div class="col-10 col-md-7">
 									<div class="form-group">
 										<label for="Id_Usuario" class="bmd-label-floating"></label>
-										<input class="form-control form-control-sm" type="text" name="Id_Usuario" id="Id_Usuario" value ="<?php echo $obj->Id_Usuario?>"placeholder="El Codigo es Asignado por el Sistema" aria-label=".form-control-sm example" readOnly maxlength="27">
+										<input class="form-control form-control-sm" type="text" name="Id_Usuario"
+											id="Id_Usuario" value="<?php echo $obj->Id_Usuario ?>"
+											placeholder="El Codigo es Asignado por el Sistema"
+											aria-label=".form-control-sm example" readOnly maxlength="27">
 									</div>
 								</div>
 								<div class="col-10 col-md-7">
 									<div class="form-group">
 										<label for="Usuario_Nombre" class="bmd-label-floating">Nombre</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="Usuario_Nombre" id="Usuario_Nombre" value ="<?php echo $obj->Usuario_Nombre?>" maxlength="40">
+										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control"
+											name="Usuario_Nombre" id="Usuario_Nombre"
+											value="<?php echo $obj->Usuario_Nombre ?>" maxlength="40">
 									</div>
 								</div>
 								<div class="col-12 col-md-7">
 									<div class="form-group">
 										<label for="Usuario_Apellido" class="bmd-label-floating">Apellido</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="Usuario_Apellido" id="Usuario_Apellido" value ="<?php echo $obj->Usuario_Apellido?>" maxlength="40">
-									</div>
-								</div>
-								<div class="col-12 col-md-7">
-								<div class="form-group">
-								<label for="Tipo_Documento" class="bmd-label-floating">Tipo Documento</label>
-	                                <select class="form-control" name="Tipo_Documento" id="Tipo_Documento" value ="<?php echo $obj->Tipo_Documento?>" >
-										<?php
-											$query ="SELECT * FROM Tipo_Documentos";
-											$NombreDocumentos = mysqli_query($c,$query);
-
-											while($NombreDocumento = mysqli_fetch_array($NombreDocumentos)){
-										?>
-											<option value = "<?php echo $NombreDocumento[0]?>">
-											<?php echo $NombreDocumento[1]?>
-											</option>
-										<?php
-										}
-										?>    	
-	                                </select>
+										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control"
+											name="Usuario_Apellido" id="Usuario_Apellido"
+											value="<?php echo $obj->Usuario_Apellido ?>" maxlength="40">
 									</div>
 								</div>
 								<div class="col-12 col-md-7">
 									<div class="form-group">
-										<label for="Usuario_NumeroDocumento" class="bmd-label-floating">Numero de documento</label>
-										<input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}" class="form-control" name="Usuario_NumeroDocumento" id="Usuario_NumeroDocumento" value ="<?php echo $obj->Usuario_NumeroDocumento?>" maxlength="150">
+										<label for="Tipo_Documento" class="bmd-label-floating">Tipo Documento</label>
+										<select class="form-control" name="Tipo_Documento" id="Tipo_Documento"
+											value="<?php echo $obj->Tipo_Documento ?>">
+											<?php
+											$query = "SELECT * FROM Tipo_Documentos";
+											$NombreDocumentos = mysqli_query($c, $query);
+
+											while ($NombreDocumento = mysqli_fetch_array($NombreDocumentos)) {
+												?>
+												<option value="<?php echo $NombreDocumento[0] ?>">
+													<?php echo $NombreDocumento[1] ?>
+												</option>
+												<?php
+											}
+											?>
+										</select>
+									</div>
+								</div>
+								<div class="col-12 col-md-7">
+									<div class="form-group">
+										<label for="Usuario_NumeroDocumento" class="bmd-label-floating">Numero de
+											documento</label>
+										<input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}"
+											class="form-control" name="Usuario_NumeroDocumento"
+											id="Usuario_NumeroDocumento"
+											value="<?php echo $obj->Usuario_NumeroDocumento ?>" maxlength="150">
 									</div>
 								</div>
 								<div class="col-12 col-md-7">
 									<div class="form-group">
 										<label for="Usuario_Direccion" class="bmd-label-floating">Dirección</label>
-										<input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}" class="form-control" name="Usuario_Direccion" id="Usuario_Direccion" value ="<?php echo $obj->Usuario_Direccion?>" maxlength="150">
+										<input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}"
+											class="form-control" name="Usuario_Direccion" id="Usuario_Direccion"
+											value="<?php echo $obj->Usuario_Direccion ?>" maxlength="150">
 									</div>
 								</div>
 								<div class="col-10 col-md-7">
 									<div class="form-group">
-										<label for="Usuario_Correo" class="bmd-label-floating">Correo electronico</label>
-										<input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}" class="form-control" name="Usuario_Correo" id="Usuario_Correo" value ="<?php echo $obj->Usuario_Correo?>" maxlength="150">
+										<label for="Usuario_Correo" class="bmd-label-floating">Correo
+											electronico</label>
+										<input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}"
+											class="form-control" name="Usuario_Correo" id="Usuario_Correo"
+											value="<?php echo $obj->Usuario_Correo ?>" maxlength="150">
 									</div>
 								</div>
 								<div class="col-10 col-md-7">
 									<div class="form-group">
 										<label for="Usuario_Celular" class="bmd-label-floating">Celular</label>
-										<input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}" class="form-control" name="Usuario_Celular" id="Usuario_Celular" value ="<?php echo $obj->Usuario_Celular?>" maxlength="150">
+										<input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}"
+											class="form-control" name="Usuario_Celular" id="Usuario_Celular"
+											value="<?php echo $obj->Usuario_Celular ?>" maxlength="150">
 									</div>
 								</div>
 								<div class="col-10 col-md-7">
 									<div class="form-group">
-									<label for="Usuario_Rol" class="bmd-label-floating">Rol</label>
-	                                <select class="form-control" name="Usuario_Rol" id="Usuario_Rol" value ="<?php echo $obj->Usuario_Rol?>">
-										<?php
-											$query ="SELECT * FROM Roles";
-											$NombreRoles = mysqli_query($c,$query);
+										<label for="Usuario_Rol" class="bmd-label-floating">Rol</label>
+										<select class="form-control" name="Usuario_Rol" id="Usuario_Rol"
+											value="<?php echo $obj->Usuario_Rol ?>">
+											<?php
+											$query = "SELECT * FROM Roles";
+											$NombreRoles = mysqli_query($c, $query);
 											//echo $NombreDocumento;
-
-											while($NombreRol = mysqli_fetch_array($NombreRoles)){
-										?>
-											<option value = "<?php echo $NombreRol[0]?>">
-											<?php echo $NombreRol[1]?>
-											</option>
-										<?php
-										}
-										?>    
 											
-	                                </select>
+											while ($NombreRol = mysqli_fetch_array($NombreRoles)) {
+												?>
+												<option value="<?php echo $NombreRol[0] ?>">
+													<?php echo $NombreRol[1] ?>
+												</option>
+												<?php
+											}
+											?>
+
+										</select>
 									</div>
 								</div>
 								<div class="col-12 col-md-7">
-								<div class="form-group">
-								<label for="Estado_Usuario" class="bmd-label-floating">Estado</label>
-	                                <select class="form-control" name="Estado_Usuario" id="Estado_Usuario">
-										<?php
-											$query ="SELECT * FROM Estados_Usuarios";
-											$NombreEstados = mysqli_query($c,$query);
+									<div class="form-group">
+										<label for="Estado_Usuario" class="bmd-label-floating">Estado</label>
+										<select class="form-control" name="Estado_Usuario" id="Estado_Usuario">
+											<?php
+											$query = "SELECT * FROM Estados_Usuarios";
+											$NombreEstados = mysqli_query($c, $query);
 
-											while($NombreEstado = mysqli_fetch_array($NombreEstados)){
-										?>
-											<option value = "<?php echo $NombreEstado[0]?>">
-											<?php echo $NombreEstado[1]?>
-											</option>
-										<?php
-										}
-										?>    	
-	                                </select>
-								</div>
-								</div>
-								<div class="col-10 col-md-7">
-								<div class="form-group">
-										<label for="Usuario_Login" class="bmd-label-floating">Login</label>
-										<input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}" class="form-control" name="Usuario_Login" id="Usuario_Login" value ="<?php echo $obj->Usuario_Login?>" >
-								</div>
-								</div>
-								<div class="col-10 col-md-7">
-								<div class="form-group">
-										<label for="Usuario_Password" class="bmd-label-floating">Password</label>
-										<input type="password" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}" class="form-control" name="Usuario_Password" id="Usuario_Password" value ="<?php echo $obj->Usuario_Password?>">
+											while ($NombreEstado = mysqli_fetch_array($NombreEstados)) {
+												?>
+												<option value="<?php echo $NombreEstado[0] ?>">
+													<?php echo $NombreEstado[1] ?>
+												</option>
+												<?php
+											}
+											?>
+										</select>
 									</div>
 								</div>
-								
+								<div class="col-10 col-md-7">
+									<div class="form-group">
+										<label for="Usuario_Login" class="bmd-label-floating">Login</label>
+										<input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}"
+											class="form-control" name="Usuario_Login" id="Usuario_Login"
+											value="<?php echo $obj->Usuario_Login ?>">
+									</div>
+								</div>
+								<div class="col-10 col-md-7">
+									<div class="form-group">
+										<label for="Usuario_Password" class="bmd-label-floating">Password</label>
+										<input type="password" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ#- ]{1,150}"
+											class="form-control" name="Usuario_Password" id="Usuario_Password"
+											value="<?php echo $obj->Usuario_Password ?>">
+									</div>
+								</div>
+
 							</div>
 						</div>
 						<p class="text-center" style="margin-top: 40px;">
-						<button type="submit" class="btn btn-raised btn-success btn-sm" name="Modificar" ><i class="fas fa-sync-alt"> </i>&nbsp;ACTUALIZAR</button>                                   
+							<button type="submit" class="btn btn-raised btn-success btn-sm" name="Modificar"><i
+									class="fas fa-sync-alt"> </i>&nbsp;ACTUALIZAR</button>
 						</p>
 					</fieldset>
 					<br><br><br>
@@ -360,27 +394,28 @@ $conexion->close();
 			</div>
 		</section>
 	</main>
-	
-	
+
+
 	<!--=============================================
 	=            Include JavaScript files           =
 	==============================================-->
 	<!-- jQuery V3.4.1 -->
-	<script src="./js/jquery-3.4.1.min.js" ></script>
+	<script src="./js/jquery-3.4.1.min.js"></script>
 
 	<!-- popper -->
-	<script src="./js/popper.min.js" ></script>
+	<script src="./js/popper.min.js"></script>
 
 	<!-- Bootstrap V4.3 -->
-	<script src="./js/bootstrap.min.js" ></script>
+	<script src="./js/bootstrap.min.js"></script>
 
 	<!-- jQuery Custom Content Scroller V3.1.5 -->
-	<script src="./js/jquery.mCustomScrollbar.concat.min.js" ></script>
+	<script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
 
 	<!-- Bootstrap Material Design V4.0 -->
-	<script src="./js/bootstrap-material-design.min.js" ></script>
-	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+	<script src="./js/bootstrap-material-design.min.js"></script>
+	<script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
 
-	<script src="./js/main.js" ></script>
+	<script src="./js/main.js"></script>
 </body>
+
 </html>

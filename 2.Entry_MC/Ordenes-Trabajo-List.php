@@ -65,7 +65,7 @@ $totalRegistros = ceil($TotalRegistros / $maximoRegistros);
 $query = "SELECT Id_Registro_Entrada, V.Id_Vehiculo,V.Codigo,V.Placa,V.Marca,V.Modelo, 
 ER.Nombre_Estado_Registro, Observaciones, Fecha_Registro_Entrada FROM registro_entrada RE 
 INNER JOIN vehiculos V ON RE.Id_Vehiculo = V.Id_Vehiculo 
-INNER JOIN estados_registros ER ON RE.Estado_Vehiculo = ER.Id_Estado_Registro WHERE RE.Estado_Vehiculo = 2
+INNER JOIN estados_registros ER ON RE.Estado_Vehiculo = ER.Id_Estado_Registro WHERE RE.Estado_Vehiculo = 1
 ORDER BY Id_Registro_Entrada limit $desde,$maximoRegistros";
 
 //1. MANTENIMIENTO
@@ -211,29 +211,34 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
 			<!-- Page header -->
 			<div class="full-box page-header">
 				<h3 class="text-left">
-					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; REGISTRO DE ENTRADA
+					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; REGISTRO DE ORDENES DE TRABAJO
 				</h3>
 				<p class="text-justify">
-					GESTIÓN DE ENTRADA DE VEHÍCULOS
+					GESTIÓN DE ORDENES DE TRABAJO
 				</p>
 			</div>
 
 			<div class="container-fluid">
 				<ul class="full-box list-unstyled page-nav-tabs">
 					<li>
-						<a href="Registro-Entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR REGISTRO DE
-							ENTRADA</a>
+						<a href="Ordenes-Trabajo-New.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR ORDEN DE
+							TRABAJO</a>
+					</li>
+					<li>
+						<a class="" href="Ordenes-List.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
+							LISTA DE ORDENES DE TRABAJO</a>
 					</li>
 					<li>
 						<a class="active" href="Vehiculo-List.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
-							LISTA DE REGISTRO DE ENTRADAS</a>
+							LISTA DE VEHÍCULOS EN MANTENIMIENTO</a>
 					</li>
+
 				</ul>
 			</div>
 
 			<!-- Content here-->
 			<div class="container-fluid">
-			<h4>BUSCAR VEHICULO</h4>
+				<h4>BUSCAR VEHICULO</h4>
 				<form method="GET" action="BusquedaVehiculoEntrada.php">
 					<input type="text" name="buscar" placeholder="Buscar PLACA">
 					<input type="submit" value="Buscar">
@@ -250,7 +255,7 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
 								<th>Modelo</th>
 								<th>Estado Vehículo</th>
 								<th>Observaciones </th>
-								<th>Fecha Entrada</th>
+								<th>Fecha Registro</th>
 								<th>ACTUALIZAR</th>
 							</tr>
 						</thead>
