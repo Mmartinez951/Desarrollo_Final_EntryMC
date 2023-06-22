@@ -64,7 +64,6 @@ if ($_POST) {
     $obj->Retrovisores = $_POST['Retrovisores'];
     $obj->Rayones = $_POST['Rayones'];
     $obj->Tipo_Mantemiento = $_POST['Tipo_Mantemiento'];
-    $obj->Estado_Vehiculo = $_POST['Estado_Vehiculo'];
     $obj->Observaciones = $_POST['Observaciones'];
     $obj->Fecha_Orden_Trabajo = $_POST['Fecha_Orden_Trabajo'];
 }
@@ -347,25 +346,6 @@ if ($_POST) {
                                     <select class="form-control" name="Tipo_Mantenimiento" id="Tipo_Mantenimiento">
                                         <?php
                                         $query = "SELECT * FROM Tipos_Mantenimiento";
-                                        $NombreDocumentos = mysqli_query($c, $query);
-
-                                        while ($NombreDocumento = mysqli_fetch_array($NombreDocumentos)) {
-                                            ?>
-                                            <option value="<?php echo $NombreDocumento[0] ?>">
-                                                <?php echo $NombreDocumento[1] ?>
-                                            </option>
-                                            <?php
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-7">
-                                <div class="form-group">
-                                    <label for="Nombre_Estado" class="bmd-label-floating">Estado</label>
-                                    <select class="form-control" name="Nombre_Estado" id="Nombre_Estado">
-                                        <?php
-                                        $query = "SELECT * FROM Estados_registros";
                                         $NombreDocumentos = mysqli_query($c, $query);
 
                                         while ($NombreDocumento = mysqli_fetch_array($NombreDocumentos)) {

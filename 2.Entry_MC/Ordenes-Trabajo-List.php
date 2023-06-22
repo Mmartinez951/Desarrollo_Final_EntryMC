@@ -65,7 +65,7 @@ $totalRegistros = ceil($TotalRegistros / $maximoRegistros);
 $query = "SELECT Id_Registro_Entrada, V.Id_Vehiculo,V.Codigo,V.Placa,V.Marca,V.Modelo, 
 ER.Nombre_Estado_Registro, Observaciones, Fecha_Registro_Entrada FROM registro_entrada RE 
 INNER JOIN vehiculos V ON RE.Id_Vehiculo = V.Id_Vehiculo 
-INNER JOIN estados_registros ER ON RE.Estado_Vehiculo = ER.Id_Estado_Registro WHERE RE.Estado_Vehiculo = 1
+INNER JOIN estados_registros ER ON RE.Estado_Vehiculo = ER.Id_Estado_Registro WHERE RE.Estado_Vehiculo = 3
 ORDER BY Id_Registro_Entrada limit $desde,$maximoRegistros";
 
 //1. MANTENIMIENTO

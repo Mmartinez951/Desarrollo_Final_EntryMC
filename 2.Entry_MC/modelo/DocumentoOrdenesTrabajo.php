@@ -14,7 +14,6 @@ class Ordenes_Trabajo
     public $Retrovisores;
     public $Rayones;
     public $Tipo_Mantemiento;
-    public $Estado_Vehiculo;
     public $Observaciones;
     public $Fecha_Orden_Trabajo;
     public $Estado_Orden_Trabajo;
@@ -36,7 +35,6 @@ class Ordenes_Trabajo
                                                                                                     '$this->Retrovisores',
                                                                                                     '$this->Rayones',
                                                                                                     '$this->Tipo_Mantemiento',
-                                                                                                    '$this->Estado_Vehiculo',
                                                                                                     '$this->Observaciones',
                                                                                                     '$this->Fecha_Orden_Trabajo',
                                                                                                     '$this->Estado_Orden_Trabajo'

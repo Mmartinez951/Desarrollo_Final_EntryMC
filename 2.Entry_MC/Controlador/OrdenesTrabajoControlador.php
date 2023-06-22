@@ -16,7 +16,6 @@ if ($_POST){
     $obj->Retrovisores  = $_POST['Retrovisores'];
     $obj->Rayones  = $_POST['Rayones'];
     $obj->Tipo_Mantemiento   = $_POST['Tipo_Mantenimiento'];
-    $obj->Estado_Vehiculo   = $_POST['Nombre_Estado'];
     $obj->Observaciones  = $_POST['Observaciones'];
     $obj->Fecha_Orden_Trabajo  = $_POST['Fecha_Orden_Trabajo'];
     $obj->Estado_Orden_Trabajo = $_POST['Nombre_Estado_Orden'];
