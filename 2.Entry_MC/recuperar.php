@@ -64,9 +64,9 @@ function generarContraseñaAleatoria()
 function enviarCorreo($correo, $contraseña)
 {
     echo '<script>
-      alert("Tu nueva contraseña es: ' . $contraseña . '");
-      window.location.href = "index.php";
-  </script>';
+    alert("Tu nueva contraseña es: ' . $contraseña . '");
+    window.location.href = "index.php";
+</script>';
     exit();
 }
 
@@ -113,5 +113,6 @@ function enviarCorreo($correo, $contraseña) {
         <button type="submit" name="recuperar">Recuperar</button>
     </form>
 </body>
+
 
 </html>

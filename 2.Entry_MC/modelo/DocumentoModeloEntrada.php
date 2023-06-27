@@ -77,4 +77,24 @@ class Registro_Entrada
                                                 </script>";
 
     }
+    function ModificarVehiculoMantenimiento()
+    {
+
+        $conect = new Conexion();
+        $c = $conect->conectando();
+        $query = "select * from registro_entrada where Id_Registro_Entrada = '$this->Id_Registro_Entrada'";
+        $ejecuta = mysqli_query($c, $query);
+        $update = "update registro_entrada set 
+                                                                        Estado_Vehiculo='$this->Nombre_Estado_Registro',
+                                                                        Observaciones='$this->Observaciones',
+                                                                        Fecha_Registro_Entrada='$this->Fecha_Registro_Entrada'
+                                                                        WHERE Id_Registro_Entrada='$this->Id_Registro_Entrada'";
+        //echo $update;
+        mysqli_query($c, $update);
+        echo "<script>
+                                                    alert('Los datos fueron actualizados correctamente');
+                                                    location.href='Ordenes-Trabajo-list.php';
+                                                </script>";
+
+    }
 }

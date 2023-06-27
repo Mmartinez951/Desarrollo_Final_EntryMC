@@ -34,7 +34,7 @@ class Registro_Salida
             //echo ($insert);
             mysqli_query($c, $insert);
             echo "<script> alert('Se creo el registro correctamente')
-                            location.href='Registro-Entrada-list.php';</script>";
+                            location.href='Registro-Salida-list.php';</script>";
         }
     }
 }

@@ -1,47 +1,4 @@
 <?php
-// Nombre, apellido y rol en pantalla
-session_start(); // Iniciar sesión o reanudar una sesión existente
-
-// Verificar si el usuario ha iniciado sesión
-if (!isset($_SESSION['Usuario_Id'])) {
-    // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
-    header("Location: index.php");
-    exit();
-}
-
-// Conexión a la base de datos
-$conexion = new mysqli($servidor = "localhost", $usuario = "root", $password = "", $db = "entry_mc");
-
-// Verificar si la conexión fue exitosa
-if ($conexion->connect_errno) {
-    echo 'Error al conectar a la base de datos: ' . $conexion->connect_error;
-    exit();
-}
-
-// Obtener el ID del usuario autenticado desde la sesión
-$usuario_id = $_SESSION['Usuario_Id'];
-
-// Consulta para obtener el nombre de usuario, apellido de usuario y el nombre de rol del usuario autenticado
-$sql = "SELECT u.Nombre_Usuario, u.Apellido_Usuario, r.Nombre_Rol FROM Usuarios u JOIN Roles r ON u.Id_Rol = r.Id_Rol WHERE u.Id_Usuario = $usuario_id";
-$resultado = $conexion->query($sql);
-
-// Verificar si se encontraron resultados
-if ($resultado->num_rows > 0) {
-    $fila = $resultado->fetch_assoc();
-    $nombre_usuario = $fila["Nombre_Usuario"];
-    $apellido_usuario = $fila["Apellido_Usuario"];
-    $nombre_rol = $fila["Nombre_Rol"];
-} else {
-    $nombre_usuario = "";
-    $apellido_usuario = "";
-    $nombre_rol = "";
-}
-
-// Cerrar la conexión a la base de datos
-$conexion->close();
-?>
-
-<?php
 include("./Conexion/Conexion.php");
 if ($_POST) {
     $obj->Placa = $_POST['Placa'];
@@ -61,12 +18,13 @@ if (empty($_GET['pagina'])) {
 $desde = ($pagina - 1) * $maximoRegistros;
 $totalRegistros = ceil($TotalRegistros / $maximoRegistros);
 
-$query = "SELECT distinct OT.Id_Orden_Trabajo,V.Id_Vehiculo,V.Codigo,V.Placa,V.Marca, V.Modelo, U.Nombre_Usuario, TM.Nombre_Mantenimiento, OT.Fecha_Orden_Trabajo, EOT.Nombre_EstadoOrden FROM vehiculos V 
-rigth JOIN orden_trabajo OT ON V.Id_Vehiculo = OT.Id_Vehiculo
-INNER JOIN usuarios U ON OT.Asignar = U.Id_Usuario
-INNER JOIN tipos_mantenimiento TM ON OT.Tipo_Mantemiento
-INNER JOIN estados_vehiculo EV ON OT.Estado_Vehiculo = EV.Id_Estado_Vehiculo
-INNER JOIN estado_ordenestrabajo EOT ON OT.Estado_Orden_Trabajo = EOT.Id_Estado_Orden ORDER BY OT.Id_Orden_Trabajo limit $desde,$maximoRegistros";
+$query = "SELECT RT.Id_Orden_Trabajo, RT.Id_Vehiculo, RT.Codigo_Vehiculo, 
+RT.Placa, RT.Marca, RT.Modelo, U.Nombre_Usuario, TM.Nombre_Mantenimiento, RT.Fecha_Orden_Trabajo, 
+EO.Nombre_EstadoOrden FROM orden_trabajo RT 
+INNER JOIN estado_ordenestrabajo EO ON RT.Estado_Orden_Trabajo = EO.Id_Estado_Orden 
+INNER JOIN usuarios U ON RT.Asignar = U.Id_Usuario 
+INNER JOIN tipos_mantenimiento TM ON RT.Tipo_Mantemiento = TM.Id_Tipo_Mantenimiento 
+ORDER BY RT.Id_Orden_Trabajo limit $desde,$maximoRegistros";
 
 //1. MANTENIMIENTO
 //2. CIRCULACIÓN
@@ -126,12 +84,7 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
                     <i class="far fa-times-circle show-nav-lateral"></i>
                     <img src="./assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
                     <figcaption class="roboto-medium text-center">
-                        <small class="roboto-condensed-light">Bienvenido,
-                            <?php echo $nombre_usuario; ?>
-                            <?php echo $apellido_usuario; ?>
-                            <p>Rol:
-                                <?php echo $nombre_rol; ?>
-                            </p>
+                        <small class="roboto-condensed-light">Bienvenido EntryMc
                             <br>
                         </small>
                     </figcaption>
@@ -212,7 +165,7 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
             <!-- Page header -->
             <div class="full-box page-header">
                 <h3 class="text-left">
-                    <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; REGISTRO DE ORDENES DE TRABAJO
+                    <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ORDENES DE TRABAJO
                 </h3>
                 <p class="text-justify">
                     GESTIÓN DE ORDENES DE TRABAJO
@@ -239,8 +192,8 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
 
             <!-- Content here-->
             <div class="container-fluid">
-                <h4>BUSCAR VEHICULO</h4>
-                <form method="GET" action="BusquedaVehiculoEntrada.php">
+                <h4>BUSCAR ORDEN DE TRABAJO</h4>
+                <form method="GET" action="BusquedaOrdenTrabajo.php">
                     <input type="text" name="buscar" placeholder="Buscar PLACA">
                     <input type="submit" value="Buscar">
                 </form>
@@ -303,7 +256,7 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
                                         </td>
                                         <td>
                                             <a href=" <?php if ($RegistroEntrada[0] <> '') {
-                                                echo "Registro-Entrada-Update.php?key=" . urlencode($RegistroEntrada[0]);
+                                                echo "Ordenes-Trabajo-Update.php?key=" . urlencode($RegistroEntrada[0]);
                                             } ?>" class="btn btn-success">
                                                 <i class="fas fa-edit"></i>
                                             </a>

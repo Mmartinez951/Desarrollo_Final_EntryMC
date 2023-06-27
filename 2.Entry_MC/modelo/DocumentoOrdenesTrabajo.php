@@ -22,7 +22,7 @@ class Ordenes_Trabajo
     {
         $conect = new Conexion();
         $c = $conect->conectando();
-            $insert = "insert into orden_trabajo values( '$this->Id_Orden_Trabajo',
+        $insert = "insert into orden_trabajo values( '$this->Id_Orden_Trabajo',
                                                                                                     '$this->Id_Vehiculo',
                                                                                                     '$this->Codigo',
                                                                                                     '$this->Placa',
@@ -39,9 +39,37 @@ class Ordenes_Trabajo
                                                                                                     '$this->Fecha_Orden_Trabajo',
                                                                                                     '$this->Estado_Orden_Trabajo'
                                                                                                     )";
-            //echo ($insert);
-            mysqli_query($c, $insert);
-            echo "<script> alert('Se creo la orden de trabajo correctamente')
-                            location.href='Ordenes-Trabajo-list.php';</script>";
-        }
+        //echo ($insert);
+        mysqli_query($c, $insert);
+        echo "<script> alert('Se creo la orden de trabajo correctamente')
+                            location.href='Ordenes-list.php';</script>";
     }
+
+
+    function Modificar()
+    {
+        $conect = new Conexion();
+        $c = $conect->conectando();
+        $Update = "Update orden_trabajo set 
+                                                                                    Id_Orden_Trabajo='$this->Id_Orden_Trabajo',
+                                                                                    Id_Vehiculo='$this->Id_Vehiculo',
+                                                                                    Codigo_Vehiculo='$this->Codigo',
+                                                                                    Placa='$this->Placa',
+                                                                                    Marca='$this->Marca',
+                                                                                    Modelo='$this->Modelo',
+                                                                                    LLantas='$this->LLantas',
+                                                                                    Ventanas='$this->Ventanas',
+                                                                                    Asignar='$this->Asignar',
+                                                                                    Luces='$this->Luces',
+                                                                                    Retrovisores='$this->Retrovisores',
+                                                                                    Rayones='$this->Rayones',
+                                                                                    Tipo_Mantemiento='$this->Tipo_Mantemiento',
+                                                                                    Observaciones=  '$this->Observaciones',
+                                                                                    Fecha_Orden_Trabajo='$this->Fecha_Orden_Trabajo',
+                                                                                    Estado_Orden_Trabajo='$this->Estado_Orden_Trabajo'";
+        //echo ($insert);
+        mysqli_query($c, $Update);
+        echo "<script> alert('Los datos fueron actualizados correctamente')
+                            location.href='Ordenes-list.php';</script>";
+    }
+}

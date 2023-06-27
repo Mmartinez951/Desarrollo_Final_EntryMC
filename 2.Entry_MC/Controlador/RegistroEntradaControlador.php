@@ -24,7 +24,9 @@ if (isset($_POST['Modificar'])) {
 if (isset($_POST['ModificarSalida'])) {
     $obj->ModificarSalida();
 }
-
+if (isset($_POST['ModificarVehiculoV'])) {
+    $obj->ModificarVehiculoMantenimiento();
+}
 /* if (isset($_POST['Eliminar'])) {
     $obj->Eliminar();
 }

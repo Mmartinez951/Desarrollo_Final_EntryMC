@@ -96,7 +96,9 @@ if (isset($_POST['login'])) {
 						maxlength="20">
 				</div>
 
-				<input type="submit" value="Iniciar Sesión">
+				<center>
+					<input type="submit" value="Iniciar Sesión">
+				</center>
 				<br>
 				<a href="recuperar.php" type="submit">¿Olvidaste tu contraseña?</button>
 			</form>

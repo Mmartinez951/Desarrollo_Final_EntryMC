@@ -1,6 +1,6 @@
 <?php
 include("./Conexion/Conexion.php");
-include("./Controlador/RegistroEntradaControlador.php");
+include("./Controlador/OrdenesTrabajoControlador.php");
 if ($_POST) {
     $obj->Placa = $_POST['Placa'];
 }
@@ -19,10 +19,13 @@ if (empty($_GET['pagina'])) {
 $desde = ($pagina - 1) * $maximoRegistros;
 $totalRegistros = ceil($TotalRegistros / $maximoRegistros);
 
-$query = "SELECT Id_Registro_Entrada, V.Id_Vehiculo,V.Codigo,V.Placa,V.Marca,V.Modelo, ER.Nombre_Estado_Registro, Observaciones, Fecha_Registro_Entrada FROM registro_entrada RE 
-INNER JOIN vehiculos V ON RE.Id_Vehiculo = V.Id_Vehiculo 
-INNER JOIN estados_registros ER ON V.Estado_Vehiculo = ER.Id_Estado_Registro  WHERE V.Estado_Vehiculo=2
-ORDER BY Id_Registro_Entrada limit $desde,$maximoRegistros";
+$query = "SELECT RT.Id_Orden_Trabajo, RT.Id_Vehiculo, RT.Codigo_Vehiculo, 
+RT.Placa, RT.Marca, RT.Modelo, U.Nombre_Usuario, TM.Nombre_Mantenimiento, RT.Fecha_Orden_Trabajo, 
+EO.Nombre_EstadoOrden FROM orden_trabajo RT 
+INNER JOIN estado_ordenestrabajo EO ON RT.Estado_Orden_Trabajo = EO.Id_Estado_Orden 
+INNER JOIN usuarios U ON RT.Asignar = U.Id_Usuario 
+INNER JOIN tipos_mantenimiento TM ON RT.Tipo_Mantemiento = TM.Id_Tipo_Mantenimiento 
+ORDER BY RT.Id_Orden_Trabajo limit $desde,$maximoRegistros";
 
 $ejecuta = mysqli_query($c, $query);
 $RegistroEntrada = mysqli_fetch_array($ejecuta);
@@ -78,7 +81,7 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
                     <i class="far fa-times-circle show-nav-lateral"></i>
                     <img src="./assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
                     <figcaption class="roboto-medium text-center">
-                        <small class="roboto-condensed-light">Bienvenido EntryMC
+                        <small class="roboto-condensed-light">Bienvenido EntryMc
                             <br>
                         </small>
                     </figcaption>
@@ -130,7 +133,8 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
                                     class="fas fa-chevron-down"></i></a>
                             <ul>
                                 <li>
-                                    <a href="Ordenes-Trabajo-List.php"><i class="fas fa-ticket-alt"></i> &nbsp; Ordenes de
+                                    <a href="Ordenes-Trabajo-List.php"><i class="fas fa-ticket-alt"></i> &nbsp; Ordenes
+                                        de
                                         Trabajo</a>
                                 </li>
                         </li>
@@ -158,22 +162,26 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
             <!-- Page header -->
             <div class="full-box page-header">
                 <h3 class="text-left">
-                    <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; REGISTRO DE ENTRADA
+                    <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ORDENES DE TRABAJO
                 </h3>
                 <p class="text-justify">
-                    GESTIÓN DE ENTRADA DE VEHÍCULOS
+                    GESTIÓN DE ORDENES DE TRABAJO
                 </p>
             </div>
 
             <div class="container-fluid">
                 <ul class="full-box list-unstyled page-nav-tabs">
                     <li>
-                        <a href="Registro-Entrada-new.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR REGISTRO DE
-                            ENTRADA</a>
+                        <a href="Ordenes-Trabajo-New.php"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR ORDEN DE
+                            TRABAJO</a>
                     </li>
                     <li>
-                        <a class="active" href="Vehiculo-List.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
-                            LISTA DE REGISTRO DE ENTRADAS</a>
+                        <a class="active" href="Ordenes-List.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
+                            LISTA DE ORDENES DE TRABAJO</a>
+                    </li>
+                    <li>
+                        <a class="" href="Ordenes-Trabajo-List.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp;
+                            LISTA DE VEHÍCULOS EN MANTENIMIENTO</a>
                     </li>
                 </ul>
             </div>
@@ -181,16 +189,14 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
             <!-- Content here-->
             <div class="container-fluid">
                 <h4>BUSCAR VEHICULO</h4>
-                <form method="GET" action="resultados.php">
+                <form method="GET" action="BusquedaOrdenTrabajo.php">
                     <input type="text" name="buscar" placeholder="Buscar PLACA">
                     <input type="submit" value="Buscar">
                 </form>
                 <?php
-                /* $conexion = new mysqli("localhost", "root", "", "entry_mc"); */
-                $c = new Conexion();
-	            $cone = $c->conectando();
-                if ($cone->connect_error) {
-                    die("Error de conexión: " . $cone->connect_error);
+                $conexion = new mysqli("localhost", "root", "", "entry_mc",3307);
+                if ($conexion->connect_error) {
+                    die("Error de conexión: " . $conexion->connect_error);
                 }
 
                 if (isset($_GET['buscar'])) {
@@ -201,10 +207,14 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
                     // ...
                 
                     // Ejemplo de consulta utilizando MySQLi
-                    $query = "SELECT Id_Registro_Entrada, V.Id_Vehiculo, V.Codigo, V.Placa, V.Marca, V.Modelo, ER.Nombre_Estado_Registro, Observaciones, Fecha_Registro_Entrada FROM registro_entrada RE
-                    INNER JOIN vehiculos V ON RE.Id_Vehiculo = V.Id_Vehiculo 
-                    INNER JOIN estados_registros ER ON RE.Estado_Vehiculo = ER.Id_Estado_Registro WHERE V.placa LIKE '%$termino%' AND ER.Id_Estado_Registro=2";
-                    $resultado = $cone->query($query);
+                    $query = "SELECT RT.Id_Orden_Trabajo, RT.Id_Vehiculo, RT.Codigo_Vehiculo, 
+                    RT.Placa, RT.Marca, RT.Modelo, U.Nombre_Usuario, TM.Nombre_Mantenimiento, RT.Fecha_Orden_Trabajo, 
+                    EO.Nombre_EstadoOrden FROM orden_trabajo RT 
+                    INNER JOIN estado_ordenestrabajo EO ON RT.Estado_Orden_Trabajo = EO.Id_Estado_Orden 
+                    INNER JOIN usuarios U ON RT.Asignar = U.Id_Usuario 
+                    INNER JOIN tipos_mantenimiento TM ON RT.Tipo_Mantemiento = TM.Id_Tipo_Mantenimiento
+                    INNER JOIN vehiculos v on rt.Id_Vehiculo = v.Id_Vehiculo WHERE V.placa LIKE '%$termino%'";
+                    $resultado = $conexion->query($query);
 
                     $datos = array();
 
@@ -223,15 +233,16 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
                             <table class="table table-dark table-sm">
                                 <thead>
                                     <tr class="text-center roboto-medium">
-                                        <!-- <th>#</th> -->
-                                        <!-- <th>Vehículo</th> -->
+                                    <!--    <th>#</th> -->
+                                        <th>Vehículo</th>
                                         <th>Codigo</th>
                                         <th>Placa</th>
                                         <th>Marca </th>
                                         <th>Modelo</th>
-                                        <th>Estado Vehículo</th>
-                                        <th>Observaciones </th>
-                                        <th>Fecha Entrada</th>
+                                        <th>Asignado</th>
+                                        <th>Tipo Mantemiento </th>
+                                        <th>Fecha Orden Trabajo</th>
+                                        <th>Estado Orden Trabajo</th>
                                         <th>ACTUALIZAR</th>
                                     </tr>
                                 </thead>
@@ -243,7 +254,10 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
                                     </style>
                                     <tr>
                                         <td>
-                                            <?php echo $fila['Codigo']; ?>
+                                            <?php echo $fila['Id_Vehiculo']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $fila['Codigo_Vehiculo']; ?>
                                         </td>
                                         <td>
                                             <?php echo $fila['Placa']; ?>
@@ -255,21 +269,24 @@ $RegistroEntrada = mysqli_fetch_array($ejecuta);
                                             <?php echo $fila['Modelo']; ?>
                                         </td>
                                         <td>
-                                            <?php echo $fila['Nombre_Estado_Registro']; ?>
+                                            <?php echo $fila['Nombre_Usuario']; ?>
                                         </td>
                                         <td>
-                                            <?php echo $fila['Observaciones']; ?>
+                                            <?php echo $fila['Nombre_Mantenimiento']; ?>
                                         </td>
                                         <td>
-                                            <?php echo $fila['Fecha_Registro_Entrada']; ?>
+                                            <?php echo $fila['Fecha_Orden_Trabajo']; ?>
                                         </td>
-										<td>
-											<a href=" <?php if ($RegistroEntrada[0] <> '') {
-												echo "Registro-Entrada-Update.php?key=" . urlencode($RegistroEntrada[0]);
-											} ?>" class="btn btn-success">
-												<i class="fas fa-edit"></i>
-											</a>
-										</td>
+                                        <td>
+                                            <?php echo $fila['Nombre_EstadoOrden']; ?>
+                                        </td>
+                                        <td>
+                                            <a href=" <?php if ($RegistroEntrada[0] <> '') {
+                                                echo "Ordenes-Trabajo-Update.php?key=" . urlencode($RegistroEntrada[0]);
+                                            } ?>" class="btn btn-success">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                 <?php } ?>
 

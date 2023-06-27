@@ -37,11 +37,12 @@ $obj->Fecha_Registro_Entrada = $arreglo[8];
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Actualizar Registro</title>
+    <title>Agregar Registro</title>
 
     <!-- Normalize V8.0.1 -->
     <link rel="stylesheet" href="./css/normalize.css">
@@ -162,10 +163,10 @@ $obj->Fecha_Registro_Entrada = $arreglo[8];
             <!-- Page header -->
             <div class="full-box page-header">
                 <h3 class="text-left">
-                <i class="fas fa-sync-alt fa-spin"></i> &nbsp; ACTUALIZAR REGISTRO DE SALIDA
+                <i class="fas fa-sync-alt fa-spin"></i> &nbsp; ACTUALIZAR VEHICULO EN MANTENIMIENTO
                 </h3>
                 <p class="text-justify">
-                    Actualizar registro de salida.
+                    Actualizar registro de vehiculo en mantenimiento.
                 </p>
             </div>
 
@@ -176,8 +177,8 @@ $obj->Fecha_Registro_Entrada = $arreglo[8];
                             AGREGAR REGISTRO DE ENTRADA</a>
                     </li> -->
                     <li>
-                        <a href="Registro-Salida-List.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE
-                            REGISTROS DE SALIDAS</a>
+                        <a href="Ordenes-Trabajo-List.php"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE
+                            VEHICULOS EN MANTENIMIENTO</a>
                     </li>
                 </ul>
             </div>
@@ -193,7 +194,7 @@ $obj->Fecha_Registro_Entrada = $arreglo[8];
                                 /* Color de letra personalizado */
                             }
                         </style>
-                        <legend><i class="fas fa-user"></i> &nbsp; Información básica</legend>
+                        <legend><i class="fas fa-book"></i> &nbsp; Información básica</legend>
                         <div class="container-fluid">
                         </div>
                         <div class="row">
@@ -277,7 +278,7 @@ $obj->Fecha_Registro_Entrada = $arreglo[8];
                             <div class="col-12 col-md-7">
                                 <div class="form-group">
                                     <label class="label-color" for="Fecha_Registro_Entrada"
-                                        class="bmd-label-floating">Fecha Salida</label>
+                                        class="bmd-label-floating">Fecha</label>
                                     <input type="datetime-local" id="Fecha_Registro_Entrada"
                                         value="<?php echo $obj->Fecha_Registro_Entrada ?>" name="Fecha_Registro_Entrada"
                                         value="2022-01-01" min="2022-01-01" max="2050-12-31">
@@ -287,7 +288,7 @@ $obj->Fecha_Registro_Entrada = $arreglo[8];
                     </fieldset>
                     <br><br><br>
                     <p class="text-center" style="margin-top: 40px;">
-                        <button type="submit" class="btn btn-raised btn-success btn-sm" name="ModificarSalida"><i
+                        <button type="submit" class="btn btn-raised btn-success btn-sm" name="ModificarVehiculoV"><i
                                 class="fas fa-sync-alt"> </i>&nbsp;ACTUALIZAR</button>
                     </p>
                 </form>

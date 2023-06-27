@@ -37,49 +37,6 @@ $obj->Fecha_Registro_Entrada = $arreglo[8];
 ?>
 <!DOCTYPE html>
 <html lang="es">
-<?php
-// Nombre, apellido y rol en pantalla
-session_start(); // Iniciar sesión o reanudar una sesión existente
-
-// Verificar si el usuario ha iniciado sesión
-if (!isset($_SESSION['Usuario_Id'])) {
-    // El usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
-    header("Location: index.php");
-    exit();
-}
-
-// Conexión a la base de datos
-$conexion = new mysqli($servidor = "localhost", $usuario = "root", $password = "", $db = "entry_mc");
-
-// Verificar si la conexión fue exitosa
-if ($conexion->connect_errno) {
-    echo 'Error al conectar a la base de datos: ' . $conexion->connect_error;
-    exit();
-}
-
-// Obtener el ID del usuario autenticado desde la sesión
-$usuario_id = $_SESSION['Usuario_Id'];
-
-// Consulta para obtener el nombre de usuario, apellido de usuario y el nombre de rol del usuario autenticado
-$sql = "SELECT u.Nombre_Usuario, u.Apellido_Usuario, r.Nombre_Rol FROM Usuarios u JOIN Roles r ON u.Id_Rol = r.Id_Rol WHERE u.Id_Usuario = $usuario_id";
-$resultado = $conexion->query($sql);
-
-// Verificar si se encontraron resultados
-if ($resultado->num_rows > 0) {
-    $fila = $resultado->fetch_assoc();
-    $nombre_usuario = $fila["Nombre_Usuario"];
-    $apellido_usuario = $fila["Apellido_Usuario"];
-    $nombre_rol = $fila["Nombre_Rol"];
-} else {
-    $nombre_usuario = "";
-    $apellido_usuario = "";
-    $nombre_rol = "";
-}
-
-// Cerrar la conexión a la base de datos
-$conexion->close();
-?>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -326,7 +283,7 @@ $conexion->close();
                                 <div class="form-group">
                                     <label class="label-color" for="Fecha_Registro_Entrada"
                                         class="bmd-label-floating">Fecha Entrada</label>
-                                    <input type="date" id="Fecha_Registro_Entrada"
+                                    <input type="datetime-local" id="Fecha_Registro_Entrada"
                                         value="<?php echo $obj->Fecha_Registro_Entrada ?>" name="Fecha_Registro_Entrada"
                                         value="2022-01-01" min="2022-01-01" max="2050-12-31">
                                 </div>
