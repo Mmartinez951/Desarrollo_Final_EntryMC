@@ -157,7 +157,7 @@ CREATE TABLE `orden_trabajo` (
   `Rayones` varchar(25) DEFAULT NULL,
   `Tipo_Mantemiento` int(11) NOT NULL,
   `Observaciones` varchar(250) NOT NULL,
-  `Fecha_Orden_Trabajo` date DEFAULT NULL,
+  `Fecha_Orden_Trabajo` datetime DEFAULT NULL,
   `Estado_Orden_Trabajo` int(11) NOT NULL,
   PRIMARY KEY (`Id_Orden_Trabajo`),
   KEY `Id_Vehiculo` (`Id_Vehiculo`),
@@ -168,7 +168,7 @@ CREATE TABLE `orden_trabajo` (
   CONSTRAINT `orden_trabajo_ibfk_3` FOREIGN KEY (`Asignar`) REFERENCES `usuarios` (`Id_Usuario`),
   CONSTRAINT `orden_trabajo_ibfk_4` FOREIGN KEY (`Tipo_Mantemiento`) REFERENCES `tipos_mantenimiento` (`Id_Tipo_Mantenimiento`),
   CONSTRAINT `orden_trabajo_ibfk_5` FOREIGN KEY (`Estado_Orden_Trabajo`) REFERENCES `estado_ordenestrabajo` (`Id_Estado_Orden`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -177,7 +177,7 @@ CREATE TABLE `orden_trabajo` (
 
 LOCK TABLES `orden_trabajo` WRITE;
 /*!40000 ALTER TABLE `orden_trabajo` DISABLE KEYS */;
-INSERT INTO `orden_trabajo` VALUES (3,1,'MC001','KUM011','CHEVROLET',2021,'','',8,'','','',1,'','2023-06-22',1),(4,5,'MC005','KUM015','CHEVROLET',2020,'','',8,'','','',1,'','2023-06-22',1);
+INSERT INTO `orden_trabajo` VALUES (7,1,'MC001','KUM011','CHEVROLET',2021,'','',8,'','','',1,'','2023-06-25 19:40:00',2);
 /*!40000 ALTER TABLE `orden_trabajo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -224,9 +224,10 @@ CREATE TABLE `registro_entrada` (
   `Modelo` int(4) DEFAULT NULL,
   `Estado_Vehiculo` int(11) NOT NULL,
   `Observaciones` varchar(350) NOT NULL,
-  `Fecha_Registro_Entrada` date DEFAULT NULL,
-  PRIMARY KEY (`Id_Registro_Entrada`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
+  `Fecha_Registro_Entrada` datetime NOT NULL,
+  PRIMARY KEY (`Id_Registro_Entrada`),
+  CONSTRAINT `registro_entrada_ibfk_1` FOREIGN KEY (`Id_Vehiculo`) REFERENCES `vehiculos` (`Id_Vehiculo`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,7 +236,7 @@ CREATE TABLE `registro_entrada` (
 
 LOCK TABLES `registro_entrada` WRITE;
 /*!40000 ALTER TABLE `registro_entrada` DISABLE KEYS */;
-INSERT INTO `registro_entrada` VALUES (31,1,'MC001','KUM011','CHEVROLET',2021,2,'','2023-06-22'),(32,2,'MC002','KUM012','CHEVROLET',2021,1,'','2023-06-22');
+INSERT INTO `registro_entrada` VALUES (34,1,'MC001','KUM011','CHEVROLET',2021,3,'Prueba Fecha','2023-06-30 19:33:00'),(35,2,'MC002','KUM012','CHEVROLET',2021,3,'','2023-06-26 13:42:00'),(36,5,'MC005','KUM015','CHEVROLET',2020,1,'','2023-06-30 10:38:00');
 /*!40000 ALTER TABLE `registro_entrada` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -459,4 +460,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-21 20:52:49
+-- Dump completed on 2023-06-26 23:29:34
