@@ -10,11 +10,11 @@ Desarrollar un sistema de información web que permita normalizar el control y s
 
 
 # Objetivos Especifícos #
-Gestionar el control y seguimiento de los alimentadores que hacen uso de los servicios de mantenimiento en el patio taller Masivo Capital
-Gestionar los usuarios
-Gestionar la entrada y salida de los vehículos
-Gestionar ordenes de trabajo 
-Gestionar reportes
+- Gestionar el control y seguimiento de los alimentadores que hacen uso de los servicios de mantenimiento en el patio taller Masivo Capital
+- Gestionar los usuarios
+- Gestionar la entrada y salida de los vehículos
+- Gestionar ordenes de trabajo 
+- Gestionar reportes
 
 # Justificación #
 Dirigir esta serie de elementos permiten direccionar al vehículo dentro de los servicios del patio dando prioridad a los autobuses que tengan menos intervenciones a realizar ofreciendo oportunidad de disponibilidad de los buses alimentadores al sistema sin embargo, este tipo de captura de información a la entrada y la salida se realiza de forma manual generando inconvenientes de movilidad publica.
